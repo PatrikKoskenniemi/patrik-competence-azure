@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="azure-competence-cygni:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/azure_competence_cygni_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="azure-competence-cygni/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="azure-competence-cygni" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" />
+          <element id="library" level="project" name="Maven: javax.ws.rs:jsr311-api:1.1.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey.contribs:jersey-multipart:1.18.3" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.18.3" />
+          <element id="library" level="project" name="Maven: org.jvnet.mimepull:mimepull:1.9.3" />
+          <element id="library" level="project" name="Maven: com.microsoft.azure:azure-storage:4.0.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.12" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
