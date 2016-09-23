@@ -1,11 +1,14 @@
 package example;
 
+import com.microsoft.azure.storage.blob.BlobInputStream;
+
 import java.io.*;
+import java.util.List;
 
-public class LocalStorage implements StorageClient {
+public class LocalStorageClient implements StorageClient {
 
-    public LocalStorage() {
-        System.out.println("LocalStorage.LocalStorage");
+    public LocalStorageClient() {
+        System.out.println("LocalStorageClient.LocalStorageClient");
     }
 
 
@@ -37,6 +40,17 @@ public class LocalStorage implements StorageClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public BlobInputStream downloadBlob(String filename) {
+
+        return null;
+    }
+
+    @Override
+    public List<String> listBlobs() {
+        return null;
     }
 
     private void writeToOutput(InputStream inputStream, OutputStream outputStream) throws IOException {

@@ -5,6 +5,8 @@ import com.microsoft.azure.storage.blob.*;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AzureStorageClient implements StorageClient {
 
@@ -62,6 +64,50 @@ public class AzureStorageClient implements StorageClient {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public BlobInputStream downloadBlob(String filename) throws FileNotFoundException, StorageException, URISyntaxException {
+
+            // Loop through each blob item in the container.
+            for (ListBlobItem blobItem : container.listBlobs()) {
+                // If the item is a blob, not a virtual directory.
+                if (blobItem instanceof CloudBlob) {
+
+                    // Download the item and save it to a file with the same name.
+                    CloudBlob blob = (CloudBlob) blobItem;
+                    if (blob.getName().equals(filename)) {
+                        BlobInputStream blobInputStream = blob.openInputStream();
+                        //File tempFile = new File("D:\\home\\site\\wwwroot\\" + blob.getName());
+                        //blob.download(new FileOutputStream(tempFile));
+                        return blobInputStream;
+                    }
+                }
+            }
+            throw new FileNotFoundException();
+        }
+
+    @Override
+    public List<String> listBlobs() {
+
+        List<String> listOfBlobName = new ArrayList<>();
+        try
+        {
+            for (ListBlobItem blobItem : container.listBlobs()) {
+                if (blobItem instanceof CloudBlob) {
+                    CloudBlob blob = (CloudBlob) blobItem;
+                    listOfBlobName.add(blob.getName());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // Output the stack trace.
+            e.printStackTrace();
+        }
+        return listOfBlobName;
+
+    }
+
     @Override
     public void uploadBlob(String uploadedFileLocation, String filename) {
         try

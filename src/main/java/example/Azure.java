@@ -1,15 +1,19 @@
 package example;
 
 
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.BlobInputStream;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.org.apache.regexp.internal.RE;
 
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
-
+import java.net.URISyntaxException;
+import java.util.List;
 
 
 @Path("/azure")
@@ -18,11 +22,11 @@ public class Azure {
     private static final String devstorage = "UseDevelopmentStorage=true";
     // Define the connection-string with your values
     private static final String storageConnectionString =
-            "DefaultEndpointsProtocol=https;AccountName=storagepatrik;AccountKey=l0uEp4dcX7UfubLwvKAdsHByNCNUedNxukDyAD0oNC5P1yzdhDhKe6i9a0zR/5do/phv2eNTo65kuGpqNOnAOg==;";
+            "DefaultEndpointsProtocol=https;AccountName=peppelino92;AccountKey=Pyj+luY5fngVssGyJCO2j00WCmmUsUmVxkTLxXEoSruViRP9w0jI/NNNirR0YF5ybVGIhtgft3Yrg1wkoweBbw==;";
 
 
     private StorageClient storageClient = new AzureStorageClient(storageConnectionString);
-    //private StorageClient storageClient = new LocalStorage();
+    //private StorageClient storageClient = new LocalStorageClient();
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -44,14 +48,25 @@ public class Azure {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String listPictures() {
-        return "This should be a list of all names of the pictures...";
+        List<String> list = storageClient.listBlobs();
+        return list.toString();
     }
 
     @Path("/{name}")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getPicture(@PathParam("name") String name) {
-        return "You want the picture with the name: " + name;
-    }
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getPicture(@PathParam("name") String name) {
 
+        BlobInputStream inputStream = null;
+        try {
+            inputStream = storageClient.downloadBlob(name);
+        } catch (FileNotFoundException e) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return Response.ok(inputStream, MediaType.APPLICATION_OCTET_STREAM).build();
+
+    }
 }
