@@ -22,8 +22,7 @@ public class Azure {
     private static final String devstorage = "UseDevelopmentStorage=true";
     // Define the connection-string with your values
     private static final String storageConnectionString =
-            "DefaultEndpointsProtocol=https;AccountName=peppelino92;AccountKey=Pyj+luY5fngVssGyJCO2j00WCmmUsUmVxkTLxXEoSruViRP9w0jI/NNNirR0YF5ybVGIhtgft3Yrg1wkoweBbw==;";
-
+            "DefaultEndpointsProtocol=https;AccountName=patrik1337azure;AccountKey=JN2O6LsroB5rWSDXc5p3e4X423nvZpAUk6HDasg2ZtLR9jQ+LqCIVSolUTfOn+APBUBPTlB4UTcbfpegeNSF5Q==;";
 
     private StorageClient storageClient = new AzureStorageClient(storageConnectionString);
     //private StorageClient storageClient = new LocalStorageClient();
@@ -33,14 +32,10 @@ public class Azure {
     public Response createPicture(@FormDataParam("file") InputStream uploadedInputStream,
                                   @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
-        String uploadedFileLocation = "/home/patrik/Pictures/" + fileDetail.getFileName();
-
         // save it
         storageClient.uploadBlob(uploadedInputStream, fileDetail.getFileName());
 
-        //storageClient.uploadBlob(uploadedFileLocation, fileDetail.getFileName());
-
-        String output = "File uploaded from : " + uploadedFileLocation;
+        String output = "File uploaded!";
 
         return Response.status(200).entity(output).build();
     }
@@ -55,11 +50,11 @@ public class Azure {
     @Path("/{name}")
     @GET
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response getPicture(@PathParam("name") String name) {
+    public Response getPicture(@PathParam("name") String name, @QueryParam("size") Size size) {
 
         InputStream inputStream = null;
         try {
-            inputStream = storageClient.downloadBlob(name);
+            inputStream = storageClient.downloadBlob(name, size);
         } catch (FileNotFoundException e) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         } catch (Exception e) {

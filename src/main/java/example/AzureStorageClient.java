@@ -2,15 +2,20 @@ package example;
 
 import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.blob.*;
+import com.microsoft.azure.storage.queue.CloudQueue;
+import com.microsoft.azure.storage.queue.CloudQueueClient;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static example.Size.ExtraLarge;
+
 public class AzureStorageClient implements StorageClient {
 
     private CloudBlobContainer container;
+    private CloudQueue queue;
 
     public AzureStorageClient(String storageString) {
 
@@ -21,13 +26,20 @@ public class AzureStorageClient implements StorageClient {
 
             // Create the blob client.
             CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+            // Create the queue client.
+            CloudQueueClient queueClient = storageAccount.createCloudQueueClient();
 
             // Get a reference to a container.
             // The container name must be lower case
             container = blobClient.getContainerReference("mycontainer");
+            // Retrieve a reference to a queue.
+            queue = queueClient.getQueueReference("myqueue");
 
             // Create the container if it does not exist.
             container.createIfNotExists();
+            // Create the queue if it doesn't already exist.
+            queue.createIfNotExists();
+
 
             // Create a permissions object.
             BlobContainerPermissions containerPermissions = new BlobContainerPermissions();
@@ -48,7 +60,7 @@ public class AzureStorageClient implements StorageClient {
     public void uploadBlob(InputStream inputStream, String filename) {
 
         try {
-            CloudBlockBlob blob = container.getBlockBlobReference(filename); // assuming container was already created
+            CloudBlockBlob blob = container.getBlockBlobReference(filename + "_" + ExtraLarge); // assuming container was already created
 
             BlobOutputStream blobOutputStream = blob.openOutputStream();
 
@@ -64,7 +76,7 @@ public class AzureStorageClient implements StorageClient {
     }
 
     @Override
-    public BlobInputStream downloadBlob(String filename) throws FileNotFoundException, StorageException, URISyntaxException {
+    public BlobInputStream downloadBlob(String filename, Size size) throws FileNotFoundException, StorageException, URISyntaxException {
 
             // Loop through each blob item in the container.
             for (ListBlobItem blobItem : container.listBlobs()) {
@@ -73,9 +85,8 @@ public class AzureStorageClient implements StorageClient {
 
                     // Download the item and save it to a file with the same name.
                     CloudBlob blob = (CloudBlob) blobItem;
-                    if (blob.getName().equals(filename)) {
-                        BlobInputStream blobInputStream = blob.openInputStream();
-                        return blobInputStream;
+                    if (blob.getName().equals(filename + "_" + size)) {
+                        return blob.openInputStream();
                     }
                 }
             }

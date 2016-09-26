@@ -1,7 +1,6 @@
 package example;
 
 import com.microsoft.azure.storage.StorageException;
-import com.microsoft.azure.storage.blob.BlobInputStream;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -12,7 +11,7 @@ public interface StorageClient {
 
     void uploadBlob(InputStream inputStream, String filename);
 
-    InputStream downloadBlob(String filename) throws FileNotFoundException, StorageException, URISyntaxException;
+    InputStream downloadBlob(String filename, Size size) throws FileNotFoundException, StorageException, URISyntaxException;
 
     List<String> listBlobs();
 }

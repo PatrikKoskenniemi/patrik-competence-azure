@@ -27,9 +27,9 @@ public class LocalStorageClient implements StorageClient {
     }
 
     @Override
-    public InputStream downloadBlob(String filename) throws FileNotFoundException {
+    public InputStream downloadBlob(String filename, Size size) throws FileNotFoundException {
 
-        File blob = new File(defaultLocation + filename);
+        File blob = new File(defaultLocation + filename + "_" + size);
         InputStream inputStream = new FileInputStream(blob);
 
         return inputStream;
