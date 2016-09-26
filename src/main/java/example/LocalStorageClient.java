@@ -1,37 +1,21 @@
 package example;
 
-import com.microsoft.azure.storage.blob.BlobInputStream;
 
 import java.io.*;
 import java.util.List;
 
 public class LocalStorageClient implements StorageClient {
 
+    private final static String defaultLocation = "/tmp/AzureLocalStorage/";
+
     public LocalStorageClient() {
         System.out.println("LocalStorageClient.LocalStorageClient");
-    }
-
-
-    public void uploadBlob(String fileLocation, String filename) {
-
-        try {
-            File destination = new File("/tmp/azuretest/" + filename);
-            File source = new File(fileLocation);
-
-            OutputStream outputStream = new FileOutputStream(destination);
-            InputStream inputStream = new FileInputStream(source);
-
-            writeToOutput(inputStream,outputStream);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void uploadBlob(InputStream inputStream, String filename) {
 
-            File blob = new File("/tmp/inputstreamazure/" + filename);
+            File blob = new File(defaultLocation + filename);
 
         try {
             OutputStream OutputStream = new FileOutputStream(blob);
@@ -43,9 +27,12 @@ public class LocalStorageClient implements StorageClient {
     }
 
     @Override
-    public BlobInputStream downloadBlob(String filename) {
+    public InputStream downloadBlob(String filename) throws FileNotFoundException {
 
-        return null;
+        File blob = new File(defaultLocation + filename);
+        InputStream inputStream = new FileInputStream(blob);
+
+        return inputStream;
     }
 
     @Override

@@ -10,8 +10,7 @@ import java.util.List;
 
 public class AzureStorageClient implements StorageClient {
 
-    CloudBlobClient blobClient;
-    CloudBlobContainer container;
+    private CloudBlobContainer container;
 
     public AzureStorageClient(String storageString) {
 
@@ -21,7 +20,7 @@ public class AzureStorageClient implements StorageClient {
             CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageString);
 
             // Create the blob client.
-            blobClient = storageAccount.createCloudBlobClient();
+            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
             // Get a reference to a container.
             // The container name must be lower case
@@ -53,8 +52,7 @@ public class AzureStorageClient implements StorageClient {
 
             BlobOutputStream blobOutputStream = blob.openOutputStream();
 
-            int next = 0;
-            next = inputStream.read();
+            int next = inputStream.read();
             while (next != -1) {
                 blobOutputStream.write(next);
                 next = inputStream.read();
@@ -77,8 +75,6 @@ public class AzureStorageClient implements StorageClient {
                     CloudBlob blob = (CloudBlob) blobItem;
                     if (blob.getName().equals(filename)) {
                         BlobInputStream blobInputStream = blob.openInputStream();
-                        //File tempFile = new File("D:\\home\\site\\wwwroot\\" + blob.getName());
-                        //blob.download(new FileOutputStream(tempFile));
                         return blobInputStream;
                     }
                 }
@@ -106,22 +102,5 @@ public class AzureStorageClient implements StorageClient {
         }
         return listOfBlobName;
 
-    }
-
-    @Override
-    public void uploadBlob(String uploadedFileLocation, String filename) {
-        try
-        {
-            // Create or overwrite the "myimage.jpg" blob with contents from a local file.
-            CloudBlockBlob blob = container.getBlockBlobReference(filename);
-            File source = new File(uploadedFileLocation);
-            blob.upload(new FileInputStream(source), source.length());
-
-        }
-        catch (Exception e)
-        {
-            // Output the stack trace.
-            e.printStackTrace();
-        }
     }
 }

@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="azure-competence-cygni:war exploded">
+  <artifact type="exploded-war" name="cygni-competence-azure:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/azure_competence_cygni_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="azure-competence-cygni/web/Web" />
+      <element id="javaee-facet-resources" facet="cygni-competence-azure/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="azure-competence-cygni" />
+          <element id="module-output" name="cygni-competence-azure" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" />

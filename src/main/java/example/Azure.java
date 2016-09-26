@@ -57,7 +57,7 @@ public class Azure {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response getPicture(@PathParam("name") String name) {
 
-        BlobInputStream inputStream = null;
+        InputStream inputStream = null;
         try {
             inputStream = storageClient.downloadBlob(name);
         } catch (FileNotFoundException e) {

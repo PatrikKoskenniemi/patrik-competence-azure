@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/azure-competence-cygni.iml" filepath="$PROJECT_DIR$/azure-competence-cygni.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cygni-competence-azure.iml" filepath="$PROJECT_DIR$/cygni-competence-azure.iml" />
     </modules>
   </component>
 </project>

@@ -4,7 +4,7 @@
     <root id="archive" name="ROOT.war">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="azure-competence-cygni" />
+          <element id="module-output" name="cygni-competence-azure" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" />
@@ -18,9 +18,9 @@
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="azure-competence-cygni/web/Web" />
+      <element id="javaee-facet-resources" facet="cygni-competence-azure/web/Web" />
       <element id="file-copy" path="$PROJECT_DIR$/web/index.html" />
-      <element id="javaee-facet-resources" facet="azure-competence-cygni/web/Web2" />
+      <element id="javaee-facet-resources" facet="cygni-competence-azure/web/Web2" />
     </root>
   </artifact>
 </component>

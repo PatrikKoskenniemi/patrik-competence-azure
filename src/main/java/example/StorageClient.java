@@ -10,11 +10,9 @@ import java.util.List;
 
 public interface StorageClient {
 
-    void uploadBlob(String uploadedFileLocation, String filename);
-
     void uploadBlob(InputStream inputStream, String filename);
 
-    BlobInputStream downloadBlob(String filename) throws FileNotFoundException, StorageException, URISyntaxException;
+    InputStream downloadBlob(String filename) throws FileNotFoundException, StorageException, URISyntaxException;
 
     List<String> listBlobs();
 }
